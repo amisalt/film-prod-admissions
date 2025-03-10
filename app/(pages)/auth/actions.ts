@@ -2,10 +2,10 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { createClient } from '@/app/lib/supabase/server'
+import { createServerSideClient } from '@/app/lib/supabase/server'
 
 export async function login(formData: FormData) {
-  const supabase = await createClient()
+  const supabase = await createServerSideClient()
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
@@ -25,7 +25,7 @@ export async function login(formData: FormData) {
 }
 
 export async function signup(formData: FormData) {
-  const supabase = await createClient()
+  const supabase = await createServerSideClient()
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
@@ -45,12 +45,12 @@ export async function signup(formData: FormData) {
 }
 
 export async function logout() {
-  const supabase = await createClient()
+  const supabase = await createServerSideClient()
   const {error} = await supabase.auth.signOut()
   if (error){
     console.error(error)
     redirect("/error")
   }
   revalidatePath('/', 'layout')
-  redirect('/')
+  redirect('/auth')
 }
