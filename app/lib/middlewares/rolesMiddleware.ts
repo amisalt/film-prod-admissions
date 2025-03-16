@@ -12,6 +12,13 @@ export async function rolesMiddleware(request:NextRequest) {
       error: roleError
     }:{data:UserRow|null, error:object|null} = await (await supabase).from("users").select("role").eq("id", id).single()
 
+    if (roleError){
+      console.log("auth error")
+      const url = request.nextUrl.clone()
+      url.pathname = '/error'
+      url.search = `?error=${roleError}?code=${roleError}?message=${roleError}`
+      return NextResponse.redirect(url)
+    }
     if( !userRow || roleError ){
       console.log("role error")
       const url = request.nextUrl.clone()
@@ -35,5 +42,5 @@ export async function rolesMiddleware(request:NextRequest) {
       request
     })
   }
-  return null
+  return NextResponse.next()
 }
