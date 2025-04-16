@@ -11,7 +11,6 @@ export async function middleware(request: NextRequest) {
     headers:authResponse?.headers
   }))
   if(rolesResponse && rolesResponse.status==307){
-    console.log("role error 2")
     return rolesResponse
   }
 }

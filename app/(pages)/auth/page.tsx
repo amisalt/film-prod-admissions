@@ -1,7 +1,8 @@
-import { login, logout, signup } from "@/app/(pages)/auth/actions"
+import { login, logout, signup } from "@/app/lib/supabase/auth/authenticationForm"
 
 export default function LoginPage() {
   return (
+    <>
     <form>
       <label htmlFor="email">Email:</label>
       <input id="email" name="email" type="email" required />
@@ -9,7 +10,8 @@ export default function LoginPage() {
       <input id="password" name="password" type="password" required />
       <button formAction={login}>Log in</button>
       <button formAction={signup}>Sign up</button>
-      <button formAction={logout}>Log out</button>
     </form>
+    <button onClick={logout}>Log out</button>
+    </>
   )
 }

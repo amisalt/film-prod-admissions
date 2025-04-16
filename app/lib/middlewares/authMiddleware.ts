@@ -7,18 +7,9 @@ export async function authMiddleware(request: NextRequest) {
 
     const {
       data: { user },
-      error: authError
     } = await (await supabase).auth.getUser()
 
-    if (authError){
-      console.log("auth error")
-      const url = request.nextUrl.clone()
-      url.pathname = '/error'
-      url.search = `?error=${authError.name}?code=${authError.code}?message=${authError.message}`
-      return NextResponse.redirect(url)
-    }
-    if ( !user || authError ) {
-      console.log("no user")
+    if ( !user ) {
       const url = request.nextUrl.clone()
       url.pathname = '/auth'
       return NextResponse.redirect(url)
